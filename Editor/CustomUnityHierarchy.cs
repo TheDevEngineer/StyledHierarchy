@@ -22,8 +22,8 @@ namespace CustomUnityHierarchy
         static CustomUnityHierarchy()
         {
             customUnityHierarchyData = LoadCustomUnityHierarchyData();
-            tagTexture = (Texture)AssetDatabase.LoadAssetAtPath("Packages/iamagamedev.custom-unity-hierarchy/Tag.png", typeof(Texture));
-            layerTexture = (Texture)AssetDatabase.LoadAssetAtPath("Packages/iamagamedev.custom-unity-hierarchy/Layer.png", typeof(Texture));
+            tagTexture = (Texture)Resources.Load("Tag");
+            layerTexture = (Texture)Resources.Load("Layer");
             firstTimeSettingGuiStyleColor = true;
             EditorApplication.hierarchyWindowItemOnGUI += Draw;
             EditorApplication.hierarchyChanged += HierarchyChanged;
@@ -131,12 +131,6 @@ namespace CustomUnityHierarchy
             if (!CanIDisplayMoreData(GameObjectNameLength(gameObject), selectionRect.width, offset, longestWidth + 30, selectionRect))
             {
                 return offset;
-            }
-
-            if (tagTexture == null || layerTexture == null)
-            {
-                tagTexture = (Texture)AssetDatabase.LoadAssetAtPath("Packages/iamagamedev.custom-unity-hierarchy/Tag.png", typeof(Texture));
-                layerTexture = (Texture)AssetDatabase.LoadAssetAtPath("Packages/iamagamedev.custom-unity-hierarchy/Layer.png", typeof(Texture));
             }
 
             // Draw the icon (tag) for example.
