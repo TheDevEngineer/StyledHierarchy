@@ -1,5 +1,5 @@
 <h1>CustomUnityHierarchy</h1>
-![CustomUnityHierarchyPNG](https://github.com/user-attachments/assets/b0b9581b-7549-4a5c-8eda-28d72aab1136)
+![CustomUnityHierarchyPNG](https://github.com/user-attachments/assets/f46a2c43-e127-40f4-b871-4c53e8c2f06a.png)
 <h2>What's the project?</h2>
 <p>This is an importable custom Unity package (written in c#), that changes the look of the Unity hierarchy.&nbsp;</p>
 <h3>Feature list:</h3>
