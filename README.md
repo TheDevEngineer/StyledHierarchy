@@ -4,7 +4,7 @@
 <p>This is an importable custom Unity package (written in c#), that changes the look of the Unity hierarchy.&nbsp;</p>
 <h3>Feature list:</h3>
 <ul><li>Component display, (with compact script(s) if multiple script(s) are present),</li><li>Tree view, (my favourite feature,) this draws branches with a main and sub-colour which are both colour customisable.</li><li>GameObject header, (Needs re-coding as currently it looks for a string prefix to change, for example any GameObject with the prefix "-" which I dislike).</li><li>Layers & Tag text display which just writes what layer and tag are on each GameObject.</li></ul>
-<h2>Installation guide:</h2><ol><li>Open the Unity project you want to import the package into.
+<h2>Installation guide:</h2>
 <ol><li>Open the Unity project you want to import the package into.</li></ol>
 <h4>Import via git URL (requires Git):</h4>
 <ol><li>Click Window &gt; Package Manager &gt; + Icon.<br>
@@ -19,6 +19,6 @@
 <h2>Learning outcomes:</h2>
 <ul><li>Unity Editor scripting with use of custom methods such as:<ul><li>InitializeOnLoad,</li><li>EditorApplication.hierarchyWindowItemOnGUI,</li><li>GUIStyle,</li><li>and more.</li></ul></li><li>UXML visual tree style sheets&nbsp;(allows changing the inspector to hide and display custom values with the Unity UI Toolkit).</li><li>Enhanced ScriptableObject usage by learning to use&nbsp;classes to store/cache multiple data to prevent repeated checking which in turn saves&nbsp;resources..</li></ul>
 <h2>Assets Used:</h2>
-<p>The Tag and Layer images was obtained from (<a href="https://fonts.google.com/" target="_blank">Google Fonts</a>).</p>
+<p>The Tag and Layer images was obtained from (<a target="_blank" href="https://fonts.google.com/">Google Fonts</a>).</p>
 <h2>Source code&nbsp;& Bug reporting:</h2>
 <p>You can find the source code here: https://github.com/IAmAGameDev/CustomUnityHierarchy, along with bug reports which can be reported at the same link.</p>
