@@ -5,7 +5,7 @@
 <ul><li>Component display, (with compact script(s) if multiple script(s) are present),</li><li>Tree view, (my favourite feature,) this draws branches with a main and sub-colour which are both colour customisable.</li><li>GameObject header, (Needs re-coding as currently it looks for a string prefix to change, for example any GameObject with the prefix "-" which I dislike).</li><li>Layers & Tag text display which just writes what layer and tag are on each GameObject.</li></ul>
 <h2>Installation guide:</h2>
 <h4>Import via git URL (requires Git).</h4>
-<ol><li>Open the Unity project you want to import the package into.</li><li>Click Window &gt; Package Manager &gt; + Icon.</li><li>Copy and paste this link:</li><li><strong>TODO</strong></li></ol>
+<ol><li>Open the Unity project you want to import the package into.</li><li>Click Window &gt; Package Manager &gt; + Icon.</li><li>Copy and paste this link:</li><li><strong>https://github.com/IAmAGameDev/CustomUnityHierarchy.git</strong></li></ol>
 <h4>Import via download.</h4>
 <ol><li>Download the Unity package from the button provided by Itch.io.<br>
 </li><li>Right click the Project Window.</li><li>Click Import Package &gt; Custom Package.</li><li>Double click the Unity Package in it's downloaded folder.</li></ol>
