@@ -29,16 +29,14 @@ namespace CustomUnityHierarchy
         // Tags data
         public bool tagsEnabled = true;
 
-        // Debugs data
-        public bool debugsEnabled = false;
-
         // Hidden caches
         [HideInInspector] public bool firstTimeLoading = true;
         [HideInInspector] public List<GameObjectCache> gameObjectCache = new();
         [HideInInspector] public List<ComponentsAndTextures> componentsAndTextures = new();
-        [HideInInspector] public List<string> activeTags = new();
-        [HideInInspector] public List<string> activeLayers = new();
+        [HideInInspector] public HashSet<string> activeTags = new();
+        [HideInInspector] public HashSet<string> activeLayers = new();
         [HideInInspector] public List<ComponentsAndTextures> inspectorIcons = new();
+        [HideInInspector] public Texture tagTexture, layerTexture;
         [System.Serializable]
         public class GameObjectCache
         {
