@@ -82,9 +82,9 @@ namespace CustomUnityHierarchy
             iconsSubArea = root.Q<VisualElement>("IconsSubArea");
 
             // Changes the icons to display by using the inspectorIcons it cached earlier.
-            var iconToDisplay1 = root.Q<VisualElement>("IconToDisplay1");
-            var iconToDisplay2 = root.Q<VisualElement>("IconToDisplay2");
-            var iconToDisplay3 = root.Q<VisualElement>("IconToDisplay3");
+            VisualElement iconToDisplay1 = root.Q<VisualElement>("IconToDisplay1");
+            VisualElement iconToDisplay2 = root.Q<VisualElement>("IconToDisplay2");
+            VisualElement iconToDisplay3 = root.Q<VisualElement>("IconToDisplay3");
             iconToDisplay1.style.backgroundImage = new StyleBackground(customUnityHierarchyData.inspectorIcons.First(x => x.componentName == "d_cs Script Icon").componentTexture as Texture2D);
             iconToDisplay2.style.backgroundImage = new StyleBackground(customUnityHierarchyData.inspectorIcons.First(x => x.componentName == "d_Transform Icon").componentTexture as Texture2D);
             iconToDisplay3.style.backgroundImage = new StyleBackground(customUnityHierarchyData.inspectorIcons.First(x => x.componentName == "d_Camera Icon").componentTexture as Texture2D);
@@ -109,9 +109,11 @@ namespace CustomUnityHierarchy
             // Gets reference to the sub area which will be enabled on Tree View toggle.
             treeSubArea = root.Q<VisualElement>("TreeSubArea");
 
+            VisualElement mainBranchExample = root.Q<VisualElement>("MainBranchExample");
+            VisualElement subBranchExample = root.Q<VisualElement>("SubBranchExample");
             // ChangeEvent for the tree colors.
-            root.Q<ColorField>("MainBranchColor").RegisterCallback<ChangeEvent<Color>>(evt => RepaintHierarchy());
-            root.Q<ColorField>("SubBranchColor").RegisterCallback<ChangeEvent<Color>>(evt => RepaintHierarchy());
+            root.Q<ColorField>("MainBranchColor").RegisterCallback<ChangeEvent<Color>>(evt => UpdateBranchExamplesAndRepaint(mainBranchExample, evt.newValue));
+            root.Q<ColorField>("SubBranchColor").RegisterCallback<ChangeEvent<Color>>(evt => UpdateBranchExamplesAndRepaint(subBranchExample, evt.newValue));
 
             // Layers and tags
             root.Q<Toggle>("LayersMainToggle").RegisterCallback<ChangeEvent<bool>>(evt => RepaintHierarchy());
@@ -156,6 +158,17 @@ namespace CustomUnityHierarchy
         private void CheckForDisplayType(SerializedProperty prop, VisualElement visualElement)
         {
             visualElement.style.display = prop.boolValue ? DisplayStyle.Flex : DisplayStyle.None;
+        }
+
+        /// <summary>
+        /// Updates the example branches based on the current tree view colours.
+        /// </summary>
+        /// <param name="elementToUpdate"></param> The VisualElement to change the background image color of.
+        /// <param name="newValue"></param> The new Color value to set it to.
+        private void UpdateBranchExamplesAndRepaint(VisualElement elementToUpdate, Color newValue)
+        {
+            elementToUpdate.style.unityBackgroundImageTintColor = newValue;
+            RepaintHierarchy();
         }
     }
 }
