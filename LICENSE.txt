@@ -22,13 +22,19 @@ SOFTWARE.
 
 ---
 
-Image assets such as the tag (sell)/layer and bin icons were obtained from 
-Google Fonts and are licensed under the Apache License Version 2.0.
+**Third-Party Notices**
 
-See: https://fonts.google.com/
+This project includes third-party assets and code, as detailed below.
+
+- **Image assets** (e.b., tag/sell, layer, and bin icons) were obtained from 
+[Google Fonts](https://fonts.google.com/) and are licensed under the Apache License, Version 2.0.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
+
+- **Adapted Code** This project includes code from Federico Bellucci - febucci.com (https://github.com/febucci/unitypackage-custom-hierarchy),
+used under a modified MIT license which prohibits commercial resale.
+See comments in the source code for full license.
