@@ -201,7 +201,6 @@ namespace CustomUnityHierarchy
             ScrollView x = root.Q<ScrollView>("HeadersScrollView");
             int y = x.IndexOf(tempVisualElementItem);
             y += upOrDown;
-            Debug.Log(y + " /// " + upOrDown + " /// " + x.childCount); 
             if (y == -1 && upOrDown == -1 ||
                 y == x.childCount && upOrDown == 1)
             {
