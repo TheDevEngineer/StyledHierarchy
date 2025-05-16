@@ -196,20 +196,20 @@ namespace CustomUnityHierarchy
             return tempVisualElementItem;
         }
         
-        private void MoveElementInList(VisualElement root, CustomUnityHierarchyData.PrefixAndColor prefixAndColorItemData, VisualElement tempVisualElementItem,int upOrDown)
+        private void MoveElementInList(VisualElement root, CustomUnityHierarchyData.PrefixAndColor prefixAndColorItemData, VisualElement tempVisualElementItem, int upOrDown)
         {
-            ScrollView x = root.Q<ScrollView>("HeadersScrollView");
-            int y = x.IndexOf(tempVisualElementItem);
-            y += upOrDown;
-            if (y == -1 && upOrDown == -1 ||
-                y == x.childCount && upOrDown == 1)
+            ScrollView scrollView = root.Q<ScrollView>("HeadersScrollView");
+            int index = scrollView.IndexOf(tempVisualElementItem);
+            index += upOrDown;
+            if (index == -1 && upOrDown == -1 ||
+                index == scrollView.childCount && upOrDown == 1)
             {
                 return; // Out of bounds in the array
             }
-            x.Remove(tempVisualElementItem);
-            x.Insert(y, tempVisualElementItem);
+            scrollView.Remove(tempVisualElementItem);
+            scrollView.Insert(index, tempVisualElementItem);
             customUnityHierarchyData.prefixAndColor.Remove(prefixAndColorItemData);
-            customUnityHierarchyData.prefixAndColor.Insert(y, prefixAndColorItemData);
+            customUnityHierarchyData.prefixAndColor.Insert(index, prefixAndColorItemData);
             // Update the scripable object manually.
             SaveNewScriptableObjectData();
         }
