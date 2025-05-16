@@ -3,7 +3,9 @@ guid: 3c890a96bc306c24c8fef1562b3d2cd8
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - tagTexture: {fileID: 2800000, guid: 57326cfb006eed9498cf84489b714b42, type: 3}
+  - layerTexture: {fileID: 2800000, guid: e58026a4ea3fead479ab20215ab84c08, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

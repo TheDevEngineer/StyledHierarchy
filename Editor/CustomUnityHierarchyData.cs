@@ -16,9 +16,8 @@ namespace CustomUnityHierarchy
         public Color subBranchColor = Color.blue;
 
         // Header data
+        public List<PrefixAndColor> prefixAndColor = new();
         public bool headersEnabled = true;
-        public Color headerColor = Color.red;
-        public string headerPrefix = "-";
 
         // Layers and tags combined data
         public Color textColor = new(0.769f, 0.769f, 0.769f, 1);
@@ -67,6 +66,18 @@ namespace CustomUnityHierarchy
             {
                 this.componentName = componentName;
                 this.componentTexture = componentTexture;
+            }
+        }
+        [System.Serializable]
+        public class PrefixAndColor
+        {
+            public string headerPrefix;
+            public Color headerColor;
+
+            public PrefixAndColor(string headerPrefix, Color headerColor)
+            {
+                this.headerPrefix = headerPrefix;
+                this.headerColor = headerColor;
             }
         }
     }

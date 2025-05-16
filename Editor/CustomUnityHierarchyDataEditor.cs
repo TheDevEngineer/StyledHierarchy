@@ -13,6 +13,7 @@ namespace CustomUnityHierarchy
         private CustomUnityHierarchyData customUnityHierarchyData;
 
         public VisualTreeAsset visualTree;
+        public VisualTreeAsset visualTreeScrollViewItem;
 
         private VisualElement iconsSubArea;
         private VisualElement headersSubArea;
@@ -96,11 +97,13 @@ namespace CustomUnityHierarchy
             // Gets reference to the sub area which will be enabled on headers toggle.
             headersSubArea = root.Q<VisualElement>("HeadersSubArea");
 
-            // ChangeEvent for the header color.
-            root.Q<ColorField>("HeaderColor").RegisterCallback<ChangeEvent<Color>>(evt => RepaintHierarchy());
+            // A button to add another element to the list.
+            Button addAnotherElementToList = root.Q<Button>("AddAnotherElementToList");
+            // This is a work-around to prevent a bug where click events would fire for unknown reasons.
+            addAnotherElementToList.clickable.activators.Clear();
+            addAnotherElementToList.RegisterCallback<MouseDownEvent>(e => AddAnotherElementToList(root));
 
-            // ChangeEvent for the header prefix.
-            root.Q<TextField>("HeadersTextPrefix").RegisterCallback<ChangeEvent<string>>(evt => RepaintHierarchy());
+            MakeScrollView(root);
 
             // Tree View
             // Registers a ChangeEvent for the Tree View toggle.
@@ -129,6 +132,122 @@ namespace CustomUnityHierarchy
             CheckForDisplayType(treeEnabledProperty, treeSubArea);
 
             return root;
+        }
+
+        /// <summary>
+        /// Updates the scroll view of prefixs and colors to use for the headers.
+        /// </summary>
+        /// <param name="root"></param> 
+        private void MakeScrollView(VisualElement root)
+        {
+            // Gets the ScrollView reference from root.
+            ScrollView headerScrollView = root.Q<ScrollView>("HeadersScrollView");
+            // Finds the list property and stores it.
+            SerializedProperty headersPrefixAndColors = serializedObject.FindProperty("prefixAndColor");
+            // Force clears the ScrollView data.
+            headerScrollView.Clear();
+
+            for (int i = 0; i < customUnityHierarchyData.prefixAndColor.Count; i++)
+            {
+                // Get the reference/data of the specific item in the list that I am currently working with for example i = 0 so index 0
+                CustomUnityHierarchyData.PrefixAndColor prefixAndColorItemData = customUnityHierarchyData.prefixAndColor[i];
+                SerializedProperty prefixAndColorItemProperty = headersPrefixAndColors.GetArrayElementAtIndex(i);
+
+                headerScrollView.Add(ReturnNewVisualElementItem(root, prefixAndColorItemProperty, prefixAndColorItemData));
+            }
+        }
+
+        private VisualElement ReturnNewVisualElementItem(VisualElement root, SerializedProperty prefixAndColorItemProperty, CustomUnityHierarchyData.PrefixAndColor prefixAndColorItemData)
+        {
+            // Creates a temporary new VisualElement from a VisualTreeAsset.
+            VisualElement tempVisualElementItem = new();
+            visualTreeScrollViewItem.CloneTree(tempVisualElementItem);
+
+            // Set the prefix callback and binding path.
+            TextField prefix = tempVisualElementItem.Q<TextField>("Prefix");
+            prefix.RegisterValueChangedCallback(e => RepaintHierarchy());
+            SerializedProperty headerPrefixProp = prefixAndColorItemProperty.FindPropertyRelative("headerPrefix");
+            prefix.bindingPath = headerPrefixProp.propertyPath;
+            prefix.value = headerPrefixProp.stringValue;
+
+            // Set the color callback and binding path.
+            ColorField color = tempVisualElementItem.Q<ColorField>("Color");
+            color.RegisterValueChangedCallback(e => RepaintHierarchy());
+            SerializedProperty headerColorProp = prefixAndColorItemProperty.FindPropertyRelative("headerColor");
+            color.bindingPath = headerColorProp.propertyPath;
+            color.value = headerColorProp.colorValue;
+
+            // Move buttons
+            Button moveUpButton = tempVisualElementItem.Q<Button>("MoveUp");
+            // This is a work-around to prevent a bug where click events would fire for unknown reasons.
+            moveUpButton.clickable.activators.Clear();
+            moveUpButton.RegisterCallback<MouseDownEvent>(e => MoveElementInList(root, prefixAndColorItemData, tempVisualElementItem, -1));
+            Button moveDownButton = tempVisualElementItem.Q<Button>("MoveDown");
+            // This is a work-around to prevent a bug where click events would fire for unknown reasons.
+            moveDownButton.clickable.activators.Clear();
+            moveDownButton.RegisterCallback<MouseDownEvent>(e => MoveElementInList(root, prefixAndColorItemData, tempVisualElementItem, 1));
+
+            // Delete button
+            Button deleteElementFromList = tempVisualElementItem.Q<Button>("Delete");
+            // This is a work-around to prevent a bug where click events would fire for unknown reasons.
+            deleteElementFromList.clickable.activators.Clear();
+            deleteElementFromList.RegisterCallback<MouseDownEvent>(e => DeleteElementFromList(root, prefixAndColorItemData));
+
+            return tempVisualElementItem;
+        }
+        
+        private void MoveElementInList(VisualElement root, CustomUnityHierarchyData.PrefixAndColor prefixAndColorItemData, VisualElement tempVisualElementItem,int upOrDown)
+        {
+            ScrollView x = root.Q<ScrollView>("HeadersScrollView");
+            int y = x.IndexOf(tempVisualElementItem);
+            y += upOrDown;
+            Debug.Log(y + " /// " + upOrDown + " /// " + x.childCount); 
+            if (y == -1 && upOrDown == -1 ||
+                y == x.childCount && upOrDown == 1)
+            {
+                return; // Out of bounds in the array
+            }
+            x.Remove(tempVisualElementItem);
+            x.Insert(y, tempVisualElementItem);
+            customUnityHierarchyData.prefixAndColor.Remove(prefixAndColorItemData);
+            customUnityHierarchyData.prefixAndColor.Insert(y, prefixAndColorItemData);
+            // Update the scripable object manually.
+            SaveNewScriptableObjectData();
+        }
+
+        private void AddAnotherElementToList(VisualElement root)
+        {
+            // Add a new element to the list.
+            customUnityHierarchyData.prefixAndColor.Add(new("Replace With A Prefix.", Color.green));
+            // Update the scripable object manually.
+            SaveNewScriptableObjectData();
+
+            // Finds the list property and stores it.
+            SerializedProperty headersPrefixAndColors = serializedObject.FindProperty("prefixAndColor");
+
+            // Get the reference/data of the specific item in the list that I am currently working with.
+            CustomUnityHierarchyData.PrefixAndColor prefixAndColorItemData = customUnityHierarchyData.prefixAndColor[customUnityHierarchyData.prefixAndColor.Count - 1];
+            SerializedProperty prefixAndColorItemProperty = headersPrefixAndColors.GetArrayElementAtIndex(customUnityHierarchyData.prefixAndColor.Count - 1);
+
+            root.Q<ScrollView>("HeadersScrollView").Add(ReturnNewVisualElementItem(root, prefixAndColorItemProperty, prefixAndColorItemData));
+        }
+
+        private void DeleteElementFromList(VisualElement root, CustomUnityHierarchyData.PrefixAndColor prefixAndColorItemData)
+        {
+            root.Q<ScrollView>("HeadersScrollView").RemoveAt(customUnityHierarchyData.prefixAndColor.IndexOf(prefixAndColorItemData));
+
+            // Removes this element from the list.
+            customUnityHierarchyData.prefixAndColor.Remove(prefixAndColorItemData);
+            // Updates and saves the ScriptableObject.
+            SaveNewScriptableObjectData();
+        }
+
+        private void SaveNewScriptableObjectData()
+        {
+            // Update the scripable object manually.
+            serializedObject.Update();
+            EditorUtility.SetDirty(customUnityHierarchyData);
+            AssetDatabase.SaveAssets();
         }
 
         /// <summary>

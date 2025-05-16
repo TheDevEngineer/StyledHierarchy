@@ -103,10 +103,7 @@ namespace CustomUnityHierarchy
             }
 
             // Draw the background color for the Header.
-            if (gameObject.name.Contains(customUnityHierarchyData.headerPrefix))
-            {
-                DrawHeader(gameObject, rect);
-            }
+            DrawHeader(gameObject.name, rect);
 
             // Offset to the right (by using xMax later) by 0.
             int offset = 0;
@@ -433,19 +430,21 @@ namespace CustomUnityHierarchy
         /// </summary>
         /// <param name="gameObject"></param> gameObject we are drawing a header for.
         /// <param name="rect"></param> the gameObjects rect area.
-        private static void DrawHeader(GameObject gameObject, Rect rect)
+        private static void DrawHeader(string gameObjectName, Rect rect)
         {
-            // Returns if headers is disabled.
-            if (!customUnityHierarchyData.headersEnabled)
+            // Returns if headers is disabled or nothing is in the prefix.
+            if (!customUnityHierarchyData.headersEnabled || 
+                customUnityHierarchyData.prefixAndColor.Count == 0 ||
+                !customUnityHierarchyData.prefixAndColor.Any(x => gameObjectName.Contains(x.headerPrefix)))
             {
                 return;
             }
 
-            // Offset the box and draw the box.
-            Rect newRect = new(rect.x, rect.y, rect.width + 50, rect.height);
+            // Get the color from the first instance that the prefix applies to this gameObject name.
+            Color newColor = customUnityHierarchyData.prefixAndColor.First(x => gameObjectName.Contains(x.headerPrefix)).headerColor;
 
-            // New color to draw as.
-            Color newColor = customUnityHierarchyData.headerColor;
+            // Adjust the rect.
+            Rect newRect = new(rect.x, rect.y, rect.width + 50, rect.height);
 
             // Make it transparent.
             newColor.a = newColor.a > 0.25f ? 0.25f : newColor.a;
