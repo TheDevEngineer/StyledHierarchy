@@ -26,8 +26,8 @@ namespace CustomUnityHierarchy
             customUnityHierarchyData = LoadCustomUnityHierarchyData();
 
             // Loads the tag and layer texture from a "Resources" folder.
-            customUnityHierarchyData.tagTexture = (Texture)Resources.Load("Tag");
-            customUnityHierarchyData.layerTexture = (Texture)Resources.Load("Layer");
+            customUnityHierarchyData.tagTexture = (Texture)Resources.Load("sell_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20");
+            customUnityHierarchyData.layerTexture = (Texture)Resources.Load("layers_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20");
 
             firstTimeSettingGuiStyleColor = true;
 
@@ -183,8 +183,8 @@ namespace CustomUnityHierarchy
             if (customUnityHierarchyData.tagTexture == null || customUnityHierarchyData.layerTexture == null)
             {
                 // Trys to find the tag or layer texture in a Resources folder.
-                customUnityHierarchyData.tagTexture = (Texture)Resources.Load("Tag");
-                customUnityHierarchyData.layerTexture = (Texture)Resources.Load("Layer");
+                customUnityHierarchyData.tagTexture = (Texture)Resources.Load("sell_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20");
+                customUnityHierarchyData.layerTexture = (Texture)Resources.Load("layers_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20");
                 // If still null log and return.
                 if (customUnityHierarchyData.layerTexture == null || customUnityHierarchyData.layerTexture == null)
                 {
