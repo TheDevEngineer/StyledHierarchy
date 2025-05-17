@@ -3,7 +3,7 @@
 <h2>What's the project?</h2>
 <p>This is an importable custom Unity package (written in c#), that changes the look of the Unity hierarchy.&nbsp;</p>
 <h3>Feature list:</h3>
-<ul><li>Component display, (with compact script(s) if multiple script(s) are present),</li><li>Tree view, (my favourite feature,) this draws branches with a main and sub-colour which are both colour customisable.</li><li>GameObject header, (Needs re-coding as currently it looks for a string prefix to change, for example any GameObject with the prefix "-" which I dislike).</li><li>Layers & Tag text display which just writes what layer and tag are on each GameObject.</li></ul>
+<ul><li>Component display, (with compact script(s) if multiple script(s) are present),</li><li>Tree view, (my favourite feature,) this draws branches with a main and sub-colour which are both colour customisable.</li><li>GameObject header, a priority based list of colours and prefixes to draw as a background colour for a GameObject.</li><li>Layers & Tag text display which just writes what layer and tag are on each GameObject.</li></ul>
 <h2>Installation guide:</h2>
 <ol><li>Open the Unity project you want to import the package into.</li></ol>
 <h4>Import via git URL (requires Git):</h4>
