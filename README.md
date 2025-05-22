@@ -8,7 +8,7 @@
 <ol><li>Open the Unity project you want to import the package into.</li></ol>
 <h4>Import via git URL (requires Git):</h4>
 <ol><li>Click Window &gt; Package Manager &gt; + Icon.<br>
-</li><li>Add Package from git URL.</li><li>Copy and paste this link:</li><li><a href="https://github.com/IAmAGameDev/CustomUnityHierarchy.git">https://github.com/IAmAGameDev/CustomUnityHierarchy.git</a></li></ol>
+</li><li>Add Package from git URL.</li><li>Copy and paste this link:</li><li><a href="https://github.com/IAmAGameDev/CustomHierarchy.git">https://github.com/IAmAGameDev/CustomHierarchy.git</a></li></ol>
 <h4>Import via download:</h4>
 <ol><li>Download the Unity package.<br>
 </li><li>Right click in your Project View.
