@@ -26,7 +26,7 @@ SOFTWARE.
 
 This project includes third-party assets and code, as detailed below.
 
-- **Image assets** (e.b., tag/sell, layer, and bin icons) were obtained from 
+- **Image assets** (e.g., tag/sell, layer, and bin icons) were obtained from 
 [Google Fonts](https://fonts.google.com/) and are licensed under the Apache License, Version 2.0.
 
 Licensed under the Apache License, Version 2.0 (the "License");
