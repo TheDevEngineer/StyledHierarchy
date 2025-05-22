@@ -21,4 +21,4 @@
 <h2>Assets Used:</h2>
 <p>The Tag and Layer images was obtained from (<a target="_blank" href="https://fonts.google.com/">Google Fonts</a>).</p>
 <h2>Source code&nbsp;& Bug reporting:</h2>
-<p>You can find the source code here: https://github.com/IAmAGameDev/CustomUnityHierarchy, along with bug reports which can be reported at the same link.</p>
+<p>You can find the source code here: https://github.com/IAmAGameDev/CustomHierarchy, along with bug reports which can be reported at the same link.</p>
