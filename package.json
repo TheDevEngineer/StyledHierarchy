@@ -1,7 +1,7 @@
 {
-  "name": "iamagamedev.custom-hierarchy",
+  "name": "iamagamedev.styled-hierarchy",
   "version": "1.0.0",
-  "displayName": "CustomHierarchy",
+  "displayName": "StyledHierarchy",
   "description": "This is a importable custom Unity package (written in c#), that changes the look of the Unity hierarchy.",
   "unity": "2021.2",
   "keywords": [

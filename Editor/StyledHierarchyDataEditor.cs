@@ -5,12 +5,12 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace CustomHierarchy
+namespace StyledHierarchy
 {
-    [CustomEditor(typeof(CustomHierarchyData))]
-    public class CustomHierarchyDataEditor : Editor
+    [CustomEditor(typeof(StyledHierarchyData))]
+    public class StyledHierarchyDataEditor : Editor
     {
-        private CustomHierarchyData customHierarchyData;
+        private StyledHierarchyData StyledHierarchyData;
 
         public VisualTreeAsset visualTree;
         public VisualTreeAsset visualTreeScrollViewItem;
@@ -29,19 +29,19 @@ namespace CustomHierarchy
         private void OnEnable()
         {
             // Gets reference to the scriptableObject.
-            customHierarchyData = target as CustomHierarchyData;
+            StyledHierarchyData = target as StyledHierarchyData;
 
             componentIconsEnabledProperty = serializedObject.FindProperty("componentIconsEnabled");
             headersEnabledProperty = serializedObject.FindProperty("headersEnabled");
             treeEnabledProperty = serializedObject.FindProperty("treeEnabled");
 
             // Return check if the scriptableObject is not found.
-            if (customHierarchyData == null)
+            if (StyledHierarchyData == null)
             {
                 return;
             }
 
-            bool inspectorIconsGreaterThanZero = customHierarchyData.inspectorIcons.Count > 0;
+            bool inspectorIconsGreaterThanZero = StyledHierarchyData.inspectorIcons.Count > 0;
 
             // If the list is > 0 so we have data in it, return.
             if (inspectorIconsGreaterThanZero)
@@ -60,7 +60,7 @@ namespace CustomHierarchy
             // Foreach icon to load, load it and cache it.
             foreach (string icontoLoad in iconsToLoad)
             {
-                customHierarchyData.inspectorIcons.Add(new(icontoLoad, EditorGUIUtility.IconContent(icontoLoad).image));
+                StyledHierarchyData.inspectorIcons.Add(new(icontoLoad, EditorGUIUtility.IconContent(icontoLoad).image));
             }
         }
 
@@ -86,9 +86,9 @@ namespace CustomHierarchy
             VisualElement iconToDisplay1 = root.Q<VisualElement>("IconToDisplay1");
             VisualElement iconToDisplay2 = root.Q<VisualElement>("IconToDisplay2");
             VisualElement iconToDisplay3 = root.Q<VisualElement>("IconToDisplay3");
-            iconToDisplay1.style.backgroundImage = new StyleBackground(customHierarchyData.inspectorIcons.First(x => x.componentName == "d_cs Script Icon").componentTexture as Texture2D);
-            iconToDisplay2.style.backgroundImage = new StyleBackground(customHierarchyData.inspectorIcons.First(x => x.componentName == "d_Transform Icon").componentTexture as Texture2D);
-            iconToDisplay3.style.backgroundImage = new StyleBackground(customHierarchyData.inspectorIcons.First(x => x.componentName == "d_Camera Icon").componentTexture as Texture2D);
+            iconToDisplay1.style.backgroundImage = new StyleBackground(StyledHierarchyData.inspectorIcons.First(x => x.componentName == "d_cs Script Icon").componentTexture as Texture2D);
+            iconToDisplay2.style.backgroundImage = new StyleBackground(StyledHierarchyData.inspectorIcons.First(x => x.componentName == "d_Transform Icon").componentTexture as Texture2D);
+            iconToDisplay3.style.backgroundImage = new StyleBackground(StyledHierarchyData.inspectorIcons.First(x => x.componentName == "d_Camera Icon").componentTexture as Texture2D);
 
             // Headers
             // Registers a ChangeEvent for the headers toggle.
@@ -123,8 +123,8 @@ namespace CustomHierarchy
             root.Q<Toggle>("TagsMainToggle").RegisterCallback<ChangeEvent<bool>>(evt => RepaintHierarchy());
 
             // Layers and tags icons
-            root.Q<VisualElement>("TextureToDisplay1").style.backgroundImage = new StyleBackground(customHierarchyData.layerTexture as Texture2D);
-            root.Q<VisualElement>("TextureToDisplay2").style.backgroundImage = new StyleBackground(customHierarchyData.tagTexture as Texture2D);
+            root.Q<VisualElement>("TextureToDisplay1").style.backgroundImage = new StyleBackground(StyledHierarchyData.layerTexture as Texture2D);
+            root.Q<VisualElement>("TextureToDisplay2").style.backgroundImage = new StyleBackground(StyledHierarchyData.tagTexture as Texture2D);
 
             // Hides/Displays the sub areas based on their values.
             CheckForDisplayType(componentIconsEnabledProperty, iconsSubArea);
@@ -147,17 +147,17 @@ namespace CustomHierarchy
             // Force clears the ScrollView data.
             headerScrollView.Clear();
 
-            for (int i = 0; i < customHierarchyData.prefixAndColor.Count; i++)
+            for (int i = 0; i < StyledHierarchyData.prefixAndColor.Count; i++)
             {
                 // Get the reference/data of the specific item in the list that I am currently working with for example i = 0 so index 0
-                CustomHierarchyData.PrefixAndColor prefixAndColorItemData = customHierarchyData.prefixAndColor[i];
+                StyledHierarchyData.PrefixAndColor prefixAndColorItemData = StyledHierarchyData.prefixAndColor[i];
                 SerializedProperty prefixAndColorItemProperty = headersPrefixAndColors.GetArrayElementAtIndex(i);
 
                 headerScrollView.Add(ReturnNewVisualElementItem(root, prefixAndColorItemProperty, prefixAndColorItemData));
             }
         }
 
-        private VisualElement ReturnNewVisualElementItem(VisualElement root, SerializedProperty prefixAndColorItemProperty, CustomHierarchyData.PrefixAndColor prefixAndColorItemData)
+        private VisualElement ReturnNewVisualElementItem(VisualElement root, SerializedProperty prefixAndColorItemProperty, StyledHierarchyData.PrefixAndColor prefixAndColorItemData)
         {
             // Creates a temporary new VisualElement from a VisualTreeAsset.
             VisualElement tempVisualElementItem = new();
@@ -196,7 +196,7 @@ namespace CustomHierarchy
             return tempVisualElementItem;
         }
         
-        private void MoveElementInList(VisualElement root, CustomHierarchyData.PrefixAndColor prefixAndColorItemData, VisualElement tempVisualElementItem,int upOrDown)
+        private void MoveElementInList(VisualElement root, StyledHierarchyData.PrefixAndColor prefixAndColorItemData, VisualElement tempVisualElementItem,int upOrDown)
         {
             ScrollView x = root.Q<ScrollView>("HeadersScrollView");
             int y = x.IndexOf(tempVisualElementItem);
@@ -209,8 +209,8 @@ namespace CustomHierarchy
             }
             x.Remove(tempVisualElementItem);
             x.Insert(y, tempVisualElementItem);
-            customHierarchyData.prefixAndColor.Remove(prefixAndColorItemData);
-            customHierarchyData.prefixAndColor.Insert(y, prefixAndColorItemData);
+            StyledHierarchyData.prefixAndColor.Remove(prefixAndColorItemData);
+            StyledHierarchyData.prefixAndColor.Insert(y, prefixAndColorItemData);
             // Update the scripable object manually.
             SaveNewScriptableObjectData();
         }
@@ -218,7 +218,7 @@ namespace CustomHierarchy
         private void AddAnotherElementToList(VisualElement root)
         {
             // Add a new element to the list.
-            customHierarchyData.prefixAndColor.Add(new("Replace With A Prefix.", Color.green));
+            StyledHierarchyData.prefixAndColor.Add(new("Replace With A Prefix.", Color.green));
             // Update the scripable object manually.
             SaveNewScriptableObjectData();
 
@@ -226,18 +226,18 @@ namespace CustomHierarchy
             SerializedProperty headersPrefixAndColors = serializedObject.FindProperty("prefixAndColor");
 
             // Get the reference/data of the specific item in the list that I am currently working with.
-            CustomHierarchyData.PrefixAndColor prefixAndColorItemData = customHierarchyData.prefixAndColor[customHierarchyData.prefixAndColor.Count - 1];
-            SerializedProperty prefixAndColorItemProperty = headersPrefixAndColors.GetArrayElementAtIndex(customHierarchyData.prefixAndColor.Count - 1);
+            StyledHierarchyData.PrefixAndColor prefixAndColorItemData = StyledHierarchyData.prefixAndColor[StyledHierarchyData.prefixAndColor.Count - 1];
+            SerializedProperty prefixAndColorItemProperty = headersPrefixAndColors.GetArrayElementAtIndex(StyledHierarchyData.prefixAndColor.Count - 1);
 
             root.Q<ScrollView>("HeadersScrollView").Add(ReturnNewVisualElementItem(root, prefixAndColorItemProperty, prefixAndColorItemData));
         }
 
-        private void DeleteElementFromList(VisualElement root, CustomHierarchyData.PrefixAndColor prefixAndColorItemData)
+        private void DeleteElementFromList(VisualElement root, StyledHierarchyData.PrefixAndColor prefixAndColorItemData)
         {
-            root.Q<ScrollView>("HeadersScrollView").RemoveAt(customHierarchyData.prefixAndColor.IndexOf(prefixAndColorItemData));
+            root.Q<ScrollView>("HeadersScrollView").RemoveAt(StyledHierarchyData.prefixAndColor.IndexOf(prefixAndColorItemData));
 
             // Removes this element from the list.
-            customHierarchyData.prefixAndColor.Remove(prefixAndColorItemData);
+            StyledHierarchyData.prefixAndColor.Remove(prefixAndColorItemData);
             // Updates and saves the ScriptableObject.
             SaveNewScriptableObjectData();
         }
@@ -246,7 +246,7 @@ namespace CustomHierarchy
         {
             // Update the scripable object manually.
             serializedObject.Update();
-            EditorUtility.SetDirty(customHierarchyData);
+            EditorUtility.SetDirty(StyledHierarchyData);
             AssetDatabase.SaveAssets();
         }
 

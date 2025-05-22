@@ -2,14 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using static CustomHierarchy.CustomHierarchyData;
+using static StyledHierarchy.StyledHierarchyData;
 
-namespace CustomHierarchy
+namespace StyledHierarchy
 {
     [InitializeOnLoad]
-    public static class CustomHierarchy
+    public static class StyledHierarchy
     {
-        private static readonly CustomHierarchyData customHierarchyData;
+        private static readonly StyledHierarchyData styledHierarchyData;
         private static readonly GUIStyle guiStyle = new()
         {
             alignment = TextAnchor.MiddleLeft,
@@ -21,13 +21,13 @@ namespace CustomHierarchy
         /// <summary>
         /// Called on first load / reloading the editor (saving a script etc).
         /// </summary>
-        static CustomHierarchy()
+        static StyledHierarchy()
         {
-            customHierarchyData = LoadCustomHierarchyData();
+            styledHierarchyData = LoadStyledHierarchyData();
 
             // Loads the tag and layer texture from a "Resources" folder.
-            customHierarchyData.tagTexture = (Texture)Resources.Load("sell_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20");
-            customHierarchyData.layerTexture = (Texture)Resources.Load("layers_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20");
+            styledHierarchyData.tagTexture = (Texture)Resources.Load("tag");
+            styledHierarchyData.layerTexture = (Texture)Resources.Load("layer");
 
             firstTimeSettingGuiStyleColor = true;
 
@@ -36,44 +36,25 @@ namespace CustomHierarchy
             EditorApplication.hierarchyChanged += HierarchyChanged;
         }
 
-        // The following method is adapted from Federico Bellucci (https://github.com/febucci/unitypackage-custom-hierarchy)
-        // Used under a modified MIT license:
-        // Copyright (c) 2020 Federico Bellucci - febucci.com
-        // 
-        // Permission is hereby granted, free of charge, to any person obtaining a copy of this software/algorithm and associated
-        // documentation files (the "Software"), to use, copy, modify, merge or distribute copies of the Software, and to permit
-        // persons to whom the Software is furnished to do so, subject to the following conditions:
-        // 
-        // - The Software, substantial portions, or any modified version be kept free of charge and cannot be sold commercially.
-        // 
-        // - The above copyright and this permission notice shall be included in all copies, substantial portions or modified
-        // versions of the Software.
-        // 
-        // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-        // WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-        // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-        // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-        // 
-        // For any other use, please ask for permission by contacting the author.
         /// <summary>
         /// A method that is called manually to load/create the Scriptable Object data.
         /// </summary>
         /// <returns></returns> Returns the loaded/created asset.
-        private static CustomHierarchyData LoadCustomHierarchyData()
+        private static StyledHierarchyData LoadStyledHierarchyData()
         {
-            var asset = (CustomHierarchyData)AssetDatabase.LoadAssetAtPath("Assets/CustomHierarchyData.asset", typeof(CustomHierarchyData));
+            var asset = (StyledHierarchyData)AssetDatabase.LoadAssetAtPath("Assets/StyledHierarchyData.asset", typeof(StyledHierarchyData));
             if (asset == null)
             {
                 try
                 {
-                    asset = ScriptableObject.CreateInstance<CustomHierarchyData>();
-                    AssetDatabase.CreateAsset(asset, "Assets/CustomHierarchyData.asset");
+                    asset = ScriptableObject.CreateInstance<StyledHierarchyData>();
+                    AssetDatabase.CreateAsset(asset, "Assets/StyledHierarchyData.asset");
                     AssetDatabase.SaveAssets();
-                    Debug.Log("Didn't find a CustomHierarchyData, so creating one.");
+                    Debug.Log("Didn't find a StyledHierarchyData, so creating one.");
                 }
                 catch
                 {
-                    Debug.Log("Failed to create a CustomHierarchyData, please manually make one and rename to 'CustomHierarchyData'.");
+                    Debug.Log("Failed to create a StyledHierarchyData, please manually make one and rename to 'StyledHierarchyData'.");
                 }
             }
             return asset;
@@ -99,7 +80,7 @@ namespace CustomHierarchy
             // Stores the original textColor that is used by Unity.
             if (firstTimeSettingGuiStyleColor)
             {
-                guiStyle.normal.textColor = customHierarchyData.textColor;
+                guiStyle.normal.textColor = styledHierarchyData.textColor;
             }
 
             // Draw the background color for the Header.
@@ -120,22 +101,22 @@ namespace CustomHierarchy
             // This int will be used for if we are drawing tags and we need to draw a layer later if the tag fails.
             int currentOffset = offset;
 
-            if (customHierarchyData.tagsEnabled)
+            if (styledHierarchyData.tagsEnabled)
             {
-                offset = TagsAndLayersCombined(gameObject, gameObject.tag, customHierarchyData.activeTags, offset, rect, customHierarchyData.tagTexture);
+                offset = TagsAndLayersCombined(gameObject, gameObject.tag, styledHierarchyData.activeTags, offset, rect, styledHierarchyData.tagTexture);
             }
 
             // Wasn't able to draw tags even though its enabled so don't try and draw the layers.
-            if (customHierarchyData.tagsEnabled && currentOffset == offset)
+            if (styledHierarchyData.tagsEnabled && currentOffset == offset)
             {
                 return;
             }
 
             // Finally draws layers.
-            if (customHierarchyData.layersEnabled)
+            if (styledHierarchyData.layersEnabled)
             {
                 string layer = LayerMask.LayerToName(gameObject.layer);
-                TagsAndLayersCombined(gameObject, layer, customHierarchyData.activeLayers, offset, rect, customHierarchyData.layerTexture);
+                TagsAndLayersCombined(gameObject, layer, styledHierarchyData.activeLayers, offset, rect, styledHierarchyData.layerTexture);
             }
         }
 
@@ -177,13 +158,13 @@ namespace CustomHierarchy
             }
 
             // Null check.
-            if (customHierarchyData.tagTexture == null || customHierarchyData.layerTexture == null)
+            if (styledHierarchyData.tagTexture == null || styledHierarchyData.layerTexture == null)
             {
                 // Trys to find the tag or layer texture in a Resources folder.
-                customHierarchyData.tagTexture = (Texture)Resources.Load("sell_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20");
-                customHierarchyData.layerTexture = (Texture)Resources.Load("layers_16dp_FFFFFF_FILL0_wght400_GRAD0_opsz20");
+                styledHierarchyData.tagTexture = (Texture)Resources.Load("tag");
+                styledHierarchyData.layerTexture = (Texture)Resources.Load("layer");
                 // If still null log and return.
-                if (customHierarchyData.layerTexture == null || customHierarchyData.layerTexture == null)
+                if (styledHierarchyData.layerTexture == null || styledHierarchyData.layerTexture == null)
                 {
                     Debug.LogError("Failed to get references to the Tag/Layer images");
                     return offset;
@@ -224,7 +205,7 @@ namespace CustomHierarchy
         private static int DrawComponentIcons(Object objectReference, Rect rect, int offset)
         {
             // If disabled return the old offset.
-            if (!customHierarchyData.componentIconsEnabled)
+            if (!styledHierarchyData.componentIconsEnabled)
             {
                 return offset;
             }
@@ -233,7 +214,7 @@ namespace CustomHierarchy
             int objectReferenceID = objectReference.GetInstanceID();
 
             // Get the cached item if there even is one.
-            var cachedGameObject = customHierarchyData.gameObjectCache
+            var cachedGameObject = styledHierarchyData.gameObjectCache
                 .FirstOrDefault(x => x.instanceID == objectReferenceID);
 
             GameObject gameObject = objectReference as GameObject;
@@ -255,7 +236,7 @@ namespace CustomHierarchy
             if (cachedGameObject == null)
             {
                 GameObjectCache newCacheEntry = new(objectReferenceID, objectComponents.Length, componentTypes, gameObject.tag, gameObject.layer, gameObject.activeInHierarchy);
-                customHierarchyData.gameObjectCache.Add(newCacheEntry);
+                styledHierarchyData.gameObjectCache.Add(newCacheEntry);
                 cachedGameObject = newCacheEntry;
             }
             else
@@ -314,7 +295,7 @@ namespace CustomHierarchy
 
                 // Obtain the componentTexture from the componentTexture cache passing in a string.
                 Texture componentTexture = null;
-                foreach (var componentAndTexture in customHierarchyData.componentsAndTextures)
+                foreach (var componentAndTexture in styledHierarchyData.componentsAndTextures)
                 {
                     if (componentAndTexture.componentName == objectComponents[i].GetType().Name)
                     {
@@ -327,11 +308,11 @@ namespace CustomHierarchy
                 {
                     GUIContent componentContent = EditorGUIUtility.ObjectContent(objectComponents[i], objectComponents[i].GetType());
                     componentTexture = componentContent.image as Texture2D;
-                    customHierarchyData.componentsAndTextures.Add(new(objectComponents[i].GetType().Name, componentTexture));
+                    styledHierarchyData.componentsAndTextures.Add(new(objectComponents[i].GetType().Name, componentTexture));
                 }
 
                 // If compact script icons is enabled and we are about to draw a script skip this component.
-                if (customHierarchyData.compactScriptIcons &&
+                if (styledHierarchyData.compactScriptIcons &&
                     hasDrawnAScript && componentTexture.name == "d_cs Script Icon")
                 {
                     continue;
@@ -383,7 +364,7 @@ namespace CustomHierarchy
         private static void DrawTreeView(GameObject gameObject, Rect rect)
         {
             // Checks if tree view is enabled.
-            if (!customHierarchyData.treeEnabled)
+            if (!styledHierarchyData.treeEnabled)
             {
                 return;
             }
@@ -392,11 +373,11 @@ namespace CustomHierarchy
             {
                 // Draws the main line down.
                 Rect newRect = new(rect.x - 8, rect.y, 2, 16);
-                EditorGUI.DrawRect(newRect, customHierarchyData.mainBranchColor);
+                EditorGUI.DrawRect(newRect, styledHierarchyData.mainBranchColor);
 
                 // Draws the line across from the middle.
                 newRect = new(rect.x - 6, rect.y + 7, 7, 2);
-                EditorGUI.DrawRect(newRect, customHierarchyData.mainBranchColor);
+                EditorGUI.DrawRect(newRect, styledHierarchyData.mainBranchColor);
             }
             // Checks if there is a parent and repeats.
             DrawTreeViewRecursive(gameObject, new Rect(rect.x - 8, rect.y, rect.width, rect.height));
@@ -419,7 +400,7 @@ namespace CustomHierarchy
             newRect = new(newRect.x - 14, newRect.y, 2, 16);
 
             // Draw the Rect.
-            EditorGUI.DrawRect(newRect, customHierarchyData.subBranchColor);
+            EditorGUI.DrawRect(newRect, styledHierarchyData.subBranchColor);
 
             // Call ourselves (recursion).
             DrawTreeViewRecursive(gameObject.transform.parent.gameObject, newRect);
@@ -433,15 +414,15 @@ namespace CustomHierarchy
         private static void DrawHeader(string gameObjectName, Rect rect)
         {
             // Returns if headers is disabled or nothing is in the prefix.
-            if (!customHierarchyData.headersEnabled ||
-                customHierarchyData.prefixAndColor.Count == 0 ||
-                !customHierarchyData.prefixAndColor.Any(x => gameObjectName.Contains(x.headerPrefix)))
+            if (!styledHierarchyData.headersEnabled ||
+                styledHierarchyData.prefixAndColor.Count == 0 ||
+                !styledHierarchyData.prefixAndColor.Any(x => gameObjectName.Contains(x.headerPrefix)))
             {
                 return;
             }
 
             // Get the color from the first instance that the prefix applies to this gameObject name.
-            Color newColor = customHierarchyData.prefixAndColor.First(x => gameObjectName.Contains(x.headerPrefix)).headerColor;
+            Color newColor = styledHierarchyData.prefixAndColor.First(x => gameObjectName.Contains(x.headerPrefix)).headerColor;
 
             // Adjust the rect.
             Rect newRect = new(rect.x, rect.y, rect.width + 50, rect.height);
@@ -459,10 +440,10 @@ namespace CustomHierarchy
         private static void HierarchyChanged()
         {
             // Crear the active tag and layer list.
-            customHierarchyData.activeTags.Clear();
-            customHierarchyData.activeLayers.Clear();
+            styledHierarchyData.activeTags.Clear();
+            styledHierarchyData.activeLayers.Clear();
             // Purge the gameObjectCache (this might need to be reconsidered if performance heavy but so far works).
-            customHierarchyData.gameObjectCache.RemoveAll(x => x == null || !EditorUtility.InstanceIDToObject(x.instanceID));
+            styledHierarchyData.gameObjectCache.RemoveAll(x => x == null || !EditorUtility.InstanceIDToObject(x.instanceID));
         }
     }
 }

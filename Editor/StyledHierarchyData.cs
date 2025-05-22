@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CustomHierarchy
+namespace StyledHierarchy
 {
-    [CreateAssetMenu(fileName = "CustomHierarchyData", menuName = "CustomHierarchyData")]
-    public class CustomHierarchyData : ScriptableObject
+    [CreateAssetMenu(fileName = "StyledHierarchyData", menuName = "StyledHierarchyData")]
+    public class StyledHierarchyData : ScriptableObject
     {
         // Components data
         public bool componentIconsEnabled = true;
