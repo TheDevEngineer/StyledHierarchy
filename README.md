@@ -1,5 +1,4 @@
-<h1>CustomUnityHierarchy</h1>
-<image src="https://github.com/user-attachments/assets/f46a2c43-e127-40f4-b871-4c53e8c2f06a">
+<h1>CustomHierarchy</h1>
 <h2>What's the project?</h2>
 <p>This is an importable custom Unity package (written in c#), that changes the look of the Unity hierarchy.&nbsp;</p>
 <h3>Feature list:</h3>
@@ -8,7 +7,7 @@
 <ol><li>Open the Unity project you want to import the package into.</li></ol>
 <h4>Import via git URL (requires Git):</h4>
 <ol><li>Click Window &gt; Package Manager &gt; + Icon.<br>
-</li><li>Add Package from git URL.</li><li>Copy and paste this link:</li><li><a href="https://github.com/IAmAGameDev/CustomUnityHierarchy.git">https://github.com/IAmAGameDev/CustomUnityHierarchy.git</a></li></ol>
+</li><li>Add Package from git URL.</li><li>Copy and paste this link:</li><li><a href="https://github.com/IAmAGameDev/CustomHierarchy.git">https://github.com/IAmAGameDev/CustomHierarchy.git</a></li></ol>
 <h4>Import via download:</h4>
 <ol><li>Download the Unity package.<br>
 </li><li>Right click in your Project View.
@@ -21,4 +20,4 @@
 <h2>Assets Used:</h2>
 <p>The Tag and Layer images was obtained from (<a target="_blank" href="https://fonts.google.com/">Google Fonts</a>).</p>
 <h2>Source code&nbsp;& Bug reporting:</h2>
-<p>You can find the source code here: https://github.com/IAmAGameDev/CustomUnityHierarchy, along with bug reports which can be reported at the same link.</p>
+<p>You can find the source code here: https://github.com/IAmAGameDev/CustomHierarchy, along with bug reports which can be reported at the same link.</p>
