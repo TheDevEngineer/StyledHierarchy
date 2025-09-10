@@ -7,7 +7,7 @@
 <ol><li>Open the Unity project you want to import the package into.</li></ol>
 <h4>Import via git URL (requires Git):</h4>
 <ol><li>Click Window &gt; Package Manager &gt; + Icon.<br>
-</li><li>Add Package from git URL.</li><li>Copy and paste this link:</li><li><a href="https://github.com/IAmAGameDev/StyledHierarchy.git">https://github.com/IAmAGameDev/StyledHierarchy.git</a></li></ol>
+</li><li>Add Package from git URL.</li><li>Copy and paste this link:</li><li>https://github.com/TheDevEngineer/StyledHierarchy.git</li></ol>
 <h4>Import via download:</h4>
 <ol><li>Download the Unity package.<br>
 </li><li>Right click in your Project View.
@@ -19,3 +19,4 @@
 <ul><li>Unity Editor scripting with use of custom methods such as:<ul><li>InitializeOnLoad,</li><li>EditorApplication.hierarchyWindowItemOnGUI,</li><li>GUIStyle,</li><li>and more.</li></ul></li><li>UXML visual tree style sheets&nbsp;(allows changing the inspector to hide and display custom values with the Unity UI Toolkit).</li><li>Enhanced ScriptableObject usage by learning to use&nbsp;classes to store/cache multiple data to prevent repeated checking which in turn saves&nbsp;resources..</li></ul>
 <h2>Source code&nbsp;& Bug reporting:</h2>
 <p>You can find the source code here: https://github.com/IAmAGameDev/StyledHierarchy, along with bug reports which can be reported at the same link.</p>
+
